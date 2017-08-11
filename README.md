@@ -16,6 +16,7 @@
 # EF集成测试
 - 运行 ```Zer.Framework.Ef.IntegrationTest.Tests``` 之前，请先运行migration
 - > ```update-database```
+- > ```Update-Database -Script``` 获取数据库脚本
 
 ### 增加SortAttribute 
 > 为了在导入和导出时对数据列进行排序，增加此属性
