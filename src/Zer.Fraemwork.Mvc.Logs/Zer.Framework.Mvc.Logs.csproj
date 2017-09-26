@@ -41,6 +41,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -75,12 +76,14 @@
     <Compile Include="Attributes\AuthorizeAttribute.cs" />
     <Compile Include="Attributes\CustomExceptionAttribute.cs" />
     <Compile Include="Attributes\RoleAttribute.cs" />
+    <Compile Include="Attributes\SetMenuItemAttribute.cs" />
     <Compile Include="Attributes\UnValidateInputsAttribute.cs" />
     <Compile Include="Attributes\UnValidateLoginAttribute.cs" />
     <Compile Include="Attributes\ValidateInputAttribute.cs" />
     <Compile Include="Attributes\ValidateLoginAttribute.cs" />
     <Compile Include="Attributes\ValidateRoleAttribute.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="MenuItemManager.cs" />
     <Compile Include="MvcLoggerModule.cs" />
     <Compile Include="Attributes\NoAuthorizeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

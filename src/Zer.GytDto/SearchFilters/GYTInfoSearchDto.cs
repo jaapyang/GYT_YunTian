@@ -13,9 +13,9 @@ namespace Zer.GytDto.SearchFilters
         public string CompanyName { get; set; }
         public string TruckNo { get; set; }
 
-        public BusinessState Status { get; set; }
+        public BusinessState? Status { get; set; }
 
-        public DateTime? StratDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
     }

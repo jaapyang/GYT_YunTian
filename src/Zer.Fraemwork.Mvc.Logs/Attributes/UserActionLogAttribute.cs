@@ -2,6 +2,9 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
+using Zer.Entities;
 using Zer.Framework.Helpers;
 using Zer.GytDto;
 using Zer.GytDto.Users;
@@ -10,9 +13,17 @@ namespace Zer.Framework.Mvc.Logs.Attributes
 {
     public class UserActionLogAttribute : ActionFilterAttribute
     {
+        public UserActionLogAttribute(string actionModel, ActionType actionType)
+        {
+            ActionModel = actionModel;
+            ActionType = actionType;
+        }
+
+        private string ActionModel { get; set; }
+        private ActionType ActionType { get; set; }
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            //if(filterContext.ActionDescriptor.get)
             if (filterContext.ActionDescriptor.GetCustomAttributes(typeof(UnLogAttribute), false).Any())
             {
                 base.OnActionExecuting(filterContext);
@@ -26,8 +37,6 @@ namespace Zer.Framework.Mvc.Logs.Attributes
 
             if (filterContext.HttpContext.Session != null)
             {
-                
-
                 var userInfoDto = filterContext.HttpContext.Session["UserInfo"] as UserInfoDto;
                 if (userInfoDto == null)
                 {
@@ -39,22 +48,25 @@ namespace Zer.Framework.Mvc.Logs.Attributes
                 logInfoDto.DisplayName = userInfoDto.DisplayName;
             }
 
-            logInfoDto.ActionModel = string.Format("{0}/{1}",
-                filterContext.ActionDescriptor.ControllerDescriptor.ControllerName,
-                filterContext.ActionDescriptor.ActionName
-            );
+            logInfoDto.ActionModel = ActionModel;
+            logInfoDto.ActionType = ActionType;
 
-            StringBuilder paramStringBuilder = new StringBuilder();
+            string content = string.Empty;
 
-            foreach (var parametersKey in filterContext.ActionParameters.Keys)
+            try
             {
-                paramStringBuilder.AppendFormat("{0}:{1}|", parametersKey,
-                    filterContext.ActionParameters[parametersKey]);
+                JavaScriptSerializer json = new JavaScriptSerializer();
+
+                content = json.Serialize(filterContext.ActionParameters);
+            }
+            catch
+            {
+                
             }
 
-            logInfoDto.Content = paramStringBuilder.ToString();
+            logInfoDto.Content = content;
             logInfoDto.CreateTime = DateTime.Now;
-            logInfoDto.IP = IpHelper.GetIp();
+            logInfoDto.IP = IpHelper.GetWebClientIp();
 
             UserActionLogger.Instance.Info(logInfoDto);
             
@@ -62,3 +74,4 @@ namespace Zer.Framework.Mvc.Logs.Attributes
         }
     }
 }
+

@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
+using Zer.Entities;
 using Zer.GytDto;
 using Zer.GytDto.SearchFilters;
 
 namespace Zer.AppServices
 {
-    public interface IGYTInfoService : IAppService<GYTInfoDto, int>
+    public interface IGYTInfoService : IAppService<GYTInfoDto, string>
     {
         bool Exists(string bidTruckNo);
 
-        List<GYTInfoDto> GetVerifyList(GYTInfoSearchDto searchDto);
-
+        List<GYTInfoDto> GetListByBidTruckNoList(List<string> bidTruckNoList);
         List<GYTInfoDto> GetList(GYTInfoSearchDto searchDto);
+
+        GYTInfoDto GetByBidTruckNo(string bidTruckNo);
 
         /// <summary>
         /// 检查车牌以旧换新指标是否已使用
@@ -19,6 +21,8 @@ namespace Zer.AppServices
         /// <returns></returns>
         bool TargetIsUse(string truckNo);
 
-        GYTInfoDto Verify(int infoId);
+        GYTInfoDto Verify(string infoId);
+
+        void SetStatus(string truckNo, BusinessState state);
     }
 }
